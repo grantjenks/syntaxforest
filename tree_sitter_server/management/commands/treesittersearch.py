@@ -1,11 +1,15 @@
+import functools
 import logging
+import operator
 import time
 
 import modelqueue
+import tree_sitter_languages as ts
 
 from django.core.management.base import BaseCommand
+from django.db.models import Q
 
-from ...models import Search
+from ...models import Capture, Search, Source
 
 log = logging.getLogger(__name__)
 
@@ -26,3 +30,19 @@ class Command(BaseCommand):
 
     def process(self, search):
         log.info(f'Processing {search}')
+        extensions_map = {
+            'python': ['.py'],
+        }
+        extensions = extensions_map[search.language]
+        filters = [Q(path__endswith=extension) for extension in extensions]
+        querymap_filter = functools.reduce(operator.or_, filters, Q())
+        sources = Source.objects.filter(querymap_filter)
+        language = ts.get_language(search.language)
+        parser = ts.get_parser(search.language)
+        query = language.query(search.query)
+        for source in sources:
+            tree = parser.parse(source.text.encode())
+            node = tree.root_node
+            captures = query.captures(node)
+            for capture in captures:
+                print(capture)

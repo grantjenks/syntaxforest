@@ -12,6 +12,7 @@ class Source(models.Model):
 class Search(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     name = models.CharField(blank=True, default='', max_length=100)
+    language = models.CharField(max_length=100)
     query = models.TextField()
 
     def get_ref(self):

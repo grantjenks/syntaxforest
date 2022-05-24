@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Tree-sitter Search{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'index' %}">
+          <svg width="2em" height="2em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Search Circle</title><path d="M256 80a176 176 0 10176 176A176 176 0 00256 80z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path d="M232 160a72 72 0 1072 72 72 72 0 00-72-72z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M283.64 283.64L336 336"/></svg>
+        </a>
+        <a class="navbar-item" href="{% url 'index' %}">Tree-sitter</a>
+        <a class="navbar-item" href="{% url 'index' %}">Search</a>
+        <a class="navbar-item" href="{% url 'source' %}">Source</a>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+  </body>
+</html>

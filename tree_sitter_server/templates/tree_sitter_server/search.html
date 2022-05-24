@@ -1,59 +1,46 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ search.get_ref }} | Tree-sitter Search</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <script src="https://unpkg.com/hyperscript.org@0.9.5"></script>
-  </head>
-  <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="{% url 'index' %}">
-          <svg width="2em" height="2em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Home</title><path d="M80 212v236a16 16 0 0016 16h96V328a24 24 0 0124-24h80a24 24 0 0124 24v136h96a16 16 0 0016-16V212" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M480 256L266.89 52c-5-5.28-16.69-5.34-21.78 0L32 256M400 179V64h-48v69" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-        </a>
-      </div>
-    </nav>
-    <section class="section">
-      <div class="container">
-        <h1 class="title">
-          {{ search.get_ref }}
-          <form method="POST" class="is-pulled-right">
-            <div class="field">
-              <div class="control">
-                <button class="button is-danger">Delete</button>
-              </div>
-              <input name="action" value="delete" type="hidden">
-              {% csrf_token %}
+{% extends 'tree_sitter_server/base.html' %}
+
+{% block title %}{{ search.get_ref }} | Tree-sitter Search{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        {{ search.get_ref }}
+        <form method="POST" class="is-pulled-right">
+          <div class="field">
+            <div class="control">
+              <button class="button is-danger">Delete</button>
             </div>
-          </form>
-        </h1>
-        <div class="field">
-          <div class="control">
-            <textarea name="query" class="textarea is-large is-family-monospace" readonly>{{ search.query }}</textarea>
+            <input name="action" value="delete" type="hidden">
+            {% csrf_token %}
           </div>
+        </form>
+      </h1>
+      <div class="field">
+        <div class="control">
+          <textarea name="query" class="textarea is-large is-family-monospace" readonly>{{ search.query }}</textarea>
         </div>
       </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <h2 class="title">
-          Status
-          <form method="POST" class="is-pulled-right">
-            <div class="field">
-              <div class="control">
-                <button class="button is-primary">Re-run</button>
-              </div>
-              <input name="action" value="rerun" type="hidden">
-              {% csrf_token %}
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2 class="title">
+        Status
+        <form method="POST" class="is-pulled-right">
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary">Re-run</button>
             </div>
-          </form>
-        </h2>
-        <ul>
-          <li>Language: {{ search.language }}</li>
-        </ul>
-      </div>
-    </section>
-  </body>
-</html>
+            <input name="action" value="rerun" type="hidden">
+            {% csrf_token %}
+          </div>
+        </form>
+      </h2>
+      <ul>
+        <li>Language: {{ search.language }}</li>
+      </ul>
+    </div>
+  </section>
+{% endblock %}

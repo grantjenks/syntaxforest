@@ -1,61 +1,49 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tree-sitter Search</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  </head>
-  <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="{% url 'index' %}">
-          <svg width="2em" height="2em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Tree-sitter Search</title><path d="M80 212v236a16 16 0 0016 16h96V328a24 24 0 0124-24h80a24 24 0 0124 24v136h96a16 16 0 0016-16V212" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M480 256L266.89 52c-5-5.28-16.69-5.34-21.78 0L32 256M400 179V64h-48v69" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-        </a>
-      </div>
-    </nav>
-    <section class="section">
-      <div class="container">
-        <h1 class="title">
-          Tree-sitter Search
-        </h1>
-        <form method="POST">
-          <div class="field">
-            <div class="control">
-              <textarea name="query" class="textarea is-large is-family-monospace" placeholder="Tree-sitter query"></textarea>
-            </div>
+{% extends 'tree_sitter_server/base.html' %}
+
+{% block title %}Tree-sitter Search{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Tree-sitter Search
+      </h1>
+      <form method="POST">
+        <div class="field">
+          <div class="control">
+            <textarea name="query" class="textarea is-large is-family-monospace" placeholder="Tree-sitter query"></textarea>
           </div>
-          <div class="field has-addons has-addons-centered">
-            <p class="control">
-              <span class="select is-large">
-                <select name="language">
-                  <option value="python">Python</option>
-                  <option value="java">Java</option>
-                </select>
-              </span>
-            </p>
-            <p class="control is-expanded">
-              <input name="name" class="input is-large" type="text" placeholder="Name for query">
-            </p>
-            <p class="control">
-              <button class="button is-primary is-large">Search</button>
-            </p>
-          </div>
-          {% csrf_token %}
-        </form>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <h2 class="title">
-          Searches
-        </h2>
-        <ol>
-          {% for search in searches %}
-            <li><a href="{% url 'search' search.id %}">{{ search.get_ref }}</a></li>
-          {% endfor %}
-        </ol>
-      </div>
-    </section>
-  </body>
-</html>
+        </div>
+        <div class="field has-addons has-addons-centered">
+          <p class="control">
+            <span class="select is-large">
+              <select name="language">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+              </select>
+            </span>
+          </p>
+          <p class="control is-expanded">
+            <input name="name" class="input is-large" type="text" placeholder="Name for query">
+          </p>
+          <p class="control">
+            <button class="button is-primary is-large">Search</button>
+          </p>
+        </div>
+        {% csrf_token %}
+      </form>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2 class="title">
+        Searches
+      </h2>
+      <ol>
+        {% for search in searches %}
+          <li><a href="{% url 'search' search.id %}">{{ search.get_ref }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+{% endblock %}

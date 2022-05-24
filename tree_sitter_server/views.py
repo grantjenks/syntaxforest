@@ -1,5 +1,9 @@
 import modelqueue
 
+from pygments import highlight
+from pygments.lexers import get_lexer_for_filename
+from pygments.formatters import HtmlFormatter
+
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import SearchForm, SourceForm
@@ -36,7 +40,12 @@ def search(request, search_id):
 def source(request, path):
     if path != '':
         source = get_object_or_404(Source, path=path)
-        return render(request, 'tree_sitter_server/source.html', {'source': source})
+        lexer = get_lexer_for_filename(path)
+        formatter = HtmlFormatter(linenos=True, cssclass="source")
+        code = highlight(source.text, lexer, formatter)
+        style = formatter.get_style_defs()
+        context = {'source': source, 'code': code, 'style': style}
+        return render(request, 'tree_sitter_server/source.html', context)
     if request.method == 'POST':
         form = SourceForm(request.POST)
         if form.is_valid():
@@ -44,4 +53,6 @@ def source(request, path):
             return redirect('source', path=source.path)
     else:
         form = SourceForm()
-    return render(request, 'tree_sitter_server/source.html', {'form': form})
+    sources = Source.objects.order_by('-update_time')[:10]
+    context = {'form': form, 'sources': sources}
+    return render(request, 'tree_sitter_server/source.html', context)

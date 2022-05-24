@@ -22,6 +22,7 @@ setuptools.setup(
     install_requires=[
         'Django==3.2.*',
         'modelqueue',
+        'pygments',
         'tree-sitter-languages',
     ],
     project_urls={

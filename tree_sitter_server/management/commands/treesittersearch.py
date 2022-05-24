@@ -1,8 +1,13 @@
+import logging
+import time
+
 import modelqueue
 
 from django.core.management.base import BaseCommand
 
 from ...models import Search
+
+log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -12,6 +17,7 @@ class Command(BaseCommand):
         pass
 
     def handle(self, *args, **options):
+        logging.basicConfig(level=logging.INFO)
         while True:
             searches = Search.objects.all()
             search = modelqueue.run(searches, 'status', self.process)
@@ -19,4 +25,4 @@ class Command(BaseCommand):
                 time.sleep(1)
 
     def process(self, search):
-        pass
+        log.info(f'Processing {search}')

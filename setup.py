@@ -21,6 +21,7 @@ setuptools.setup(
     packages=['tree_sitter_server'],
     install_requires=[
         'Django==3.2.*',
+        'modelqueue',
         'tree-sitter-languages',
     ],
     project_urls={

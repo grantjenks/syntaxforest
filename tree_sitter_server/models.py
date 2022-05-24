@@ -1,3 +1,5 @@
+import modelqueue
+
 from django.db import models
 
 
@@ -14,6 +16,10 @@ class Search(models.Model):
     name = models.CharField(blank=True, default='', max_length=100)
     language = models.CharField(max_length=100)
     query = models.TextField()
+    status = modelqueue.StatusField(
+        db_index=True,
+        default=modelqueue.Status.waiting,
+    )
 
     def get_ref(self):
         return self.name or f'Search #{self.id}'

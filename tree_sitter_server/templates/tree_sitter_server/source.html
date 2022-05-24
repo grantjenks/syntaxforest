@@ -59,9 +59,17 @@
           {{ source.path }}
         </h1>
         <style>
-          {{ style|safe }}
+         {{ style|safe }}
         </style>
         {{ code|safe }}
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <h2 class="title">
+          Syntax Tree
+        </h2>
+        <pre>{{ sexp }}</pre>
       </div>
     </section>
   {% endif %}

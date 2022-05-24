@@ -1,4 +1,5 @@
 import modelqueue
+import tree_sitter_languages as ts
 
 from pygments import highlight
 from pygments.lexers import get_lexer_for_filename
@@ -41,11 +42,27 @@ def source(request, path):
     if path != '':
         source = get_object_or_404(Source, path=path)
         lexer = get_lexer_for_filename(path)
-        formatter = HtmlFormatter(linenos=True, cssclass="source")
+        formatter = HtmlFormatter(
+            linenos=True,
+            lineanchors='line',
+            anchorlinenos=True,
+        )
         code = highlight(source.text, lexer, formatter)
         style = formatter.get_style_defs()
-        context = {'source': source, 'code': code, 'style': style}
+        parser = ts.get_parser('python')
+        tree = parser.parse(source.text.encode())
+        node = tree.root_node
+        sexp = node.sexp()
+        parts = sexp.split()
+        indent = 0
+        for index in range(len(parts)):
+            part = parts[index]
+            parts[index] = ' ' * (indent * 2) + part
+            indent += part.count('(') - part.count(')')
+        sexp = '\n'.join(parts)
+        context = {'source': source, 'code': code, 'style': style, 'sexp': sexp}
         return render(request, 'tree_sitter_server/source.html', context)
+
     if request.method == 'POST':
         form = SourceForm(request.POST)
         if form.is_valid():

@@ -2,8 +2,8 @@ import modelqueue
 
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import SearchForm
-from .models import Search
+from .forms import SearchForm, SourceForm
+from .models import Search, Source
 
 
 def index(request):
@@ -31,3 +31,17 @@ def search(request, search_id):
             search.delete()
             return redirect('index')
     return render(request, 'tree_sitter_server/search.html', {'search': search})
+
+
+def source(request, path):
+    if path != '':
+        source = get_object_or_404(Source, path=path)
+        return render(request, 'tree_sitter_server/source.html', {'source': source})
+    if request.method == 'POST':
+        form = SourceForm(request.POST)
+        if form.is_valid():
+            source = form.save()
+            return redirect('source', path=source.path)
+    else:
+        form = SourceForm()
+    return render(request, 'tree_sitter_server/source.html', {'form': form})

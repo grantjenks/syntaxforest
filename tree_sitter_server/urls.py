@@ -22,4 +22,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('search/<int:search_id>', views.search, name='search'),
     path('admin/', admin.site.urls),
+    path('source/<path:path>', views.source, name='source'),
+    path('source/', lambda request: views.source(request, path=''), name='source'),
 ]

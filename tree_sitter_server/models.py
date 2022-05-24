@@ -26,3 +26,13 @@ class Search(models.Model):
 
     def __str__(self):
         return f'Search({self.query!r})'
+
+
+class Source(models.Model):
+    update_time = models.DateTimeField(auto_now=True)
+    sha = models.CharField(blank=True, max_length=100)
+    path = models.CharField(unique=True, max_length=4096)
+    text = models.TextField(blank=True)
+
+    def __str__(self):
+        return f'Source({self.path!r})'

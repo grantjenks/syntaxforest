@@ -1,33 +1,39 @@
 {% extends 'tree_sitter_server/base.html' %}
 
-{% block title %}Tree-sitter Search{% endblock %}
+{% block title %}Source | Tree-sitter Search{% endblock %}
 
 {% block content %}
   <section class="section">
     <div class="container">
       <h1 class="title">
-        Tree-sitter Search
+        Source | Tree-sitter Search
       </h1>
       <form method="POST">
         <div class="field">
           <div class="control">
-            <textarea name="query" class="textarea is-large is-family-monospace" placeholder="Tree-sitter query" rows="8"></textarea>
+            <textarea name="text" class="textarea is-large is-family-monospace" placeholder="Source text" rows="8"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <input name="path" class="input is-large is-family-monospace" type="text" placeholder="Source path">
           </div>
         </div>
         <div class="field has-addons has-addons-centered">
           <p class="control">
             <span class="select is-large">
               <select name="language">
+                <option value="language">Language</option>
                 <option value="python">Python</option>
                 <option value="java">Java</option>
               </select>
             </span>
           </p>
           <p class="control is-expanded">
-            <input name="name" class="input is-large" type="text" placeholder="Name for query">
+            <input name="sha" class="input is-large is-family-monospace" type="text" placeholder="Source SHA (optional)">
           </p>
           <p class="control">
-            <button class="button is-primary is-large">Search</button>
+            <button class="button is-primary is-large">Save</button>
           </p>
         </div>
         {% csrf_token %}
@@ -37,11 +43,11 @@
   <section class="section">
     <div class="container">
       <h2 class="title is-size-4">
-        Searches
+        Sources
       </h2>
       <ol>
-        {% for search in searches %}
-          <li><a href="{% url 'search' search.id %}">{{ search.get_ref }}</a></li>
+        {% for source in sources %}
+          <li><a href="{% url 'source' source.path %}">{{ source.path }}</a></li>
         {% endfor %}
       </ol>
     </div>

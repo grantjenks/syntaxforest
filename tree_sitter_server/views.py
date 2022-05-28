@@ -2,13 +2,17 @@ import modelqueue
 import tree_sitter_languages as ts
 
 from pygments import highlight
-from pygments.lexers import get_lexer_for_filename
+from pygments.lexers import TextLexer, get_lexer_for_filename
 from pygments.formatters import HtmlFormatter
+from pygments.util import ClassNotFound as PygmentsClassNotFound
 
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import SearchForm, SourceForm
 from .models import Search, Source
+
+EXTENSIONS = {'py': 'python', 'java': 'java'}
 
 
 def index(request):
@@ -40,36 +44,53 @@ def search(request, search_id):
 
 def source(request, path):
     if path != '':
-        source = get_object_or_404(Source, path=path)
-        lexer = get_lexer_for_filename(path)
-        formatter = HtmlFormatter(
-            linenos=True,
-            lineanchors='line',
-            anchorlinenos=True,
-        )
-        code = highlight(source.text, lexer, formatter)
-        style = formatter.get_style_defs()
-        parser = ts.get_parser('python')
-        tree = parser.parse(source.text.encode())
-        node = tree.root_node
-        sexp = node.sexp()
-        parts = sexp.split()
-        indent = 0
-        for index in range(len(parts)):
-            part = parts[index]
-            parts[index] = ' ' * (indent * 2) + part
-            indent += part.count('(') - part.count(')')
-        sexp = '\n'.join(parts)
-        context = {'source': source, 'code': code, 'style': style, 'sexp': sexp}
-        return render(request, 'tree_sitter_server/source.html', context)
+        return source_path(request, path)
+    return source_form(request, path)
 
+
+def source_path(request, path):
+    source = get_object_or_404(Source, path=path)
+    try:
+        lexer = get_lexer_for_filename(path)
+    except PygmentsClassNotFound:
+        lexer = TextLexer()
+    formatter = HtmlFormatter(
+        linenos=True,
+        lineanchors='line',
+        anchorlinenos=True,
+    )
+    code = highlight(source.text, lexer, formatter)
+    style = formatter.get_style_defs()
+    parser = ts.get_parser('python')
+    tree = parser.parse(source.text.encode())
+    node = tree.root_node
+    sexp = node.sexp()
+    parts = sexp.split()
+    indent = 0
+    for index in range(len(parts)):
+        part = parts[index]
+        parts[index] = ' ' * (indent * 2) + part
+        indent += part.count('(') - part.count(')')
+    sexp = '\n'.join(parts)
+    context = {'source': source, 'code': code, 'style': style, 'sexp': sexp}
+    return render(request, 'tree_sitter_server/source-path.html', context)
+
+
+def source_form(request, path):
     if request.method == 'POST':
         form = SourceForm(request.POST)
         if form.is_valid():
-            source = form.save()
+            source = form.save(commit=False)
+            if source.language == 'language':
+                extension = source.language.split('.')[-1]
+                language = EXTENSIONS[extension]
+                source.language = language
+            with transaction.atomic():
+                Source.objects.filter(path=source.path).delete()
+                source.save()
             return redirect('source', path=source.path)
     else:
         form = SourceForm()
     sources = Source.objects.order_by('-update_time')[:10]
     context = {'form': form, 'sources': sources}
-    return render(request, 'tree_sitter_server/source.html', context)
+    return render(request, 'tree_sitter_server/source-form.html', context)

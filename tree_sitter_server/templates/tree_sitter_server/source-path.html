@@ -1,0 +1,25 @@
+{% extends 'tree_sitter_server/base.html' %}
+
+{% block title %}{{ source.path }} | Tree-sitter Search{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        {{ source.path }}
+      </h1>
+      <style>
+       {{ style|safe }}
+      </style>
+      {{ code|safe }}
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-size-4">
+        Syntax Tree
+      </h2>
+      <pre>{{ sexp }}</pre>
+    </div>
+  </section>
+{% endblock %}

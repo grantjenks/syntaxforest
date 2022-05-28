@@ -10,6 +10,10 @@ class SearchForm(ModelForm):
 
 
 class SourceForm(ModelForm):
+    def validate_unique(self):
+        # Skip unique field validation.
+        pass
+
     class Meta:
         model = Source
-        fields = ['sha', 'path', 'text']
+        fields = ['sha', 'path', 'text', 'language']

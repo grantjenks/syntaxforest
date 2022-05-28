@@ -25,6 +25,7 @@ class Source(models.Model):
     sha = models.CharField(blank=True, max_length=100)
     path = models.CharField(unique=True, max_length=4096)
     text = models.TextField(blank=True)
+    language = models.CharField(max_length=100)
 
     def __str__(self):
         return f'Source({self.path!r})'

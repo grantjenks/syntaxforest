@@ -43,4 +43,17 @@
       </ul>
     </div>
   </section>
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-size-4">
+        Captures
+      </h2>
+      {% for result in search.result_set.all %}
+        <p>{{ result.path }}</p>
+        {% for capture in result.capture_set.all %}
+          <p>{{ capture.start_byte }} : {{ capture.end_byte }} -- ({{ capture.start_point_line }}, {{ capture.start_point_col }}) : ({{ capture.end_point_line }}, {{ capture.end_point_col }})</p>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </section>
 {% endblock %}

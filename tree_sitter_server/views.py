@@ -1,11 +1,6 @@
 import modelqueue
 import tree_sitter_languages as ts
 
-from pygments import highlight
-from pygments.lexers import TextLexer, get_lexer_for_filename
-from pygments.formatters import HtmlFormatter
-from pygments.util import ClassNotFound as PygmentsClassNotFound
-
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -50,17 +45,7 @@ def source(request, path):
 
 def source_path(request, path):
     source = get_object_or_404(Source, path=path)
-    try:
-        lexer = get_lexer_for_filename(path)
-    except PygmentsClassNotFound:
-        lexer = TextLexer()
-    formatter = HtmlFormatter(
-        linenos=True,
-        lineanchors='line',
-        anchorlinenos=True,
-    )
-    code = highlight(source.text, lexer, formatter)
-    style = formatter.get_style_defs()
+    code, style = source.to_html()
     parser = ts.get_parser('python')
     tree = parser.parse(source.text.encode())
     node = tree.root_node

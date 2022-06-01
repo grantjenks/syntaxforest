@@ -49,9 +49,19 @@
         Captures
       </h2>
       {% for result in search.result_set.all %}
-        <p>{{ result.path }}</p>
+        <h3 class="title is-size-5">
+          {{ result.path }}
+        </h3>
         {% for capture in result.capture_set.all %}
-          <p>{{ capture.start_byte }} : {{ capture.end_byte }} -- ({{ capture.start_point_line }}, {{ capture.start_point_col }}) : ({{ capture.end_point_line }}, {{ capture.end_point_col }})</p>
+          {% if forloop.first %}
+            <style>
+              {{ capture.to_html.1|safe }}
+            </style>
+          {% endif %}
+          {{ capture.to_html.0|safe }}
+          {% if not forloop.last %}
+            <br>
+          {% endif %}
         {% endfor %}
       {% endfor %}
     </div>

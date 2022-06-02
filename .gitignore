@@ -130,3 +130,7 @@ dmypy.json
 
 # Virtual env for local development
 env*/
+
+# Static files
+syntaxforest/staticfiles/*
+!syntaxforest/staticfiles/README

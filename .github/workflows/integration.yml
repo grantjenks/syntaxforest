@@ -1,0 +1,26 @@
+name: integration
+
+on: [push, pull_request]
+
+jobs:
+
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 8
+      matrix:
+        check: [bluecheck, flake8, isortcheck, rstcheck, py]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install tox
+    - name: Run checks with tox
+      run: |
+        tox -e ${{ matrix.check }}

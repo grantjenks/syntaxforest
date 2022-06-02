@@ -21,6 +21,7 @@ setuptools.setup(
     packages=['syntaxforest'],
     install_requires=[
         'Django==3.2.*',
+        'lxml',
         'modelqueue',
         'pygments',
         'tree-sitter-languages',

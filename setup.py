@@ -1,6 +1,25 @@
+"""Package Setup for syntaxforest
+"""
+
 import pathlib
 import re
 import setuptools
+
+from setuptools.command.test import test as TestCommand
+
+
+class Tox(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        import tox
+
+        errno = tox.cmdline(self.test_args)
+        exit(errno)
+
 
 init = (pathlib.Path('syntaxforest') / '__init__.py').read_text()
 match = re.search(r"^__version__ = '(.+)'$", init, re.MULTILINE)
@@ -26,6 +45,7 @@ setuptools.setup(
         'pygments',
         'tree-sitter-languages',
     ],
+    tests_require=['tox'],
     project_urls={
         'Documentation': 'https://syntaxforest.com',
         'Source': 'https://github.com/grantjenks/syntaxforest',
@@ -40,4 +60,5 @@ setuptools.setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
+    cmdclass={'test': Tox},
 )

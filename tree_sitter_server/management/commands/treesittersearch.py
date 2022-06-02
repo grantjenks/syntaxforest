@@ -1,4 +1,4 @@
-"""Tree-sitter Search
+"""Syntax Forest Search
 """
 
 import functools
@@ -18,7 +18,7 @@ log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'Execute Tree-sitter Search'
+    help = 'Syntax Forest Search'
 
     def add_arguments(self, parser):
         pass

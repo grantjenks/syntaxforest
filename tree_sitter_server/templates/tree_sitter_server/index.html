@@ -1,17 +1,17 @@
-{% extends 'tree_sitter_server/base.html' %}
+{% extends 'syntaxforest/base.html' %}
 
-{% block title %}Tree-sitter Search{% endblock %}
+{% block title %}Search | Syntax Forest{% endblock %}
 
 {% block content %}
   <section class="section">
     <div class="container">
       <h1 class="title">
-        Tree-sitter Search
+        Search
       </h1>
       <form method="POST">
         <div class="field">
           <div class="control">
-            <textarea name="query" class="textarea is-large is-family-monospace" placeholder="Tree-sitter query" rows="8"></textarea>
+            <textarea name="query" class="textarea is-large is-family-monospace" placeholder="Syntax tree query" rows="8"></textarea>
           </div>
         </div>
         <div class="field has-addons has-addons-centered">

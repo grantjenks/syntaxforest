@@ -2,7 +2,7 @@ import pathlib
 import re
 import setuptools
 
-init = (pathlib.Path('tree_sitter_server') / '__init__.py').read_text()
+init = (pathlib.Path('syntaxforest') / '__init__.py').read_text()
 match = re.search(r"^__version__ = '(.+)'$", init, re.MULTILINE)
 version = match.group(1)
 
@@ -10,15 +10,15 @@ with open('README.rst') as reader:
     readme = reader.read()
 
 setuptools.setup(
-    name='tree_sitter_server',
+    name='syntaxforest',
     version=version,
-    description='Tree sitter query server.',
+    description='Syntax Forest',
     long_description=readme,
     author='Grant Jenks',
     author_email='contact@grantjenks.com',
-    url='https://github.com/grantjenks/tree-sitter-server',
+    url='https://github.com/grantjenks/syntaxforest',
     license='Apache 2.0',
-    packages=['tree_sitter_server'],
+    packages=['syntaxforest'],
     install_requires=[
         'Django==3.2.*',
         'modelqueue',
@@ -26,9 +26,9 @@ setuptools.setup(
         'tree-sitter-languages',
     ],
     project_urls={
-        'Documentation': 'https://github.com/grantjenks/tree-sitter-server',
-        'Source': 'https://github.com/grantjenks/tree-sitter-server',
-        'Tracker': 'https://github.com/grantjenks/tree-sitter-server/issues',
+        'Documentation': 'https://syntaxforest.com',
+        'Source': 'https://github.com/grantjenks/syntaxforest',
+        'Tracker': 'https://github.com/grantjenks/syntaxforest/issues',
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',

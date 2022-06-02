@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tree_sitter_server', '0008_auto_20220528_0347'),
+        ('syntaxforest', '0008_auto_20220528_0347'),
     ]
 
     operations = [
@@ -36,13 +36,13 @@ class Migration(migrations.Migration):
                 ('sha', models.CharField(blank=True, max_length=100)),
                 ('text', models.TextField(blank=True)),
                 ('language', models.CharField(max_length=100)),
-                ('search', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tree_sitter_server.search')),
+                ('search', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='syntaxforest.search')),
             ],
         ),
         migrations.AddField(
             model_name='capture',
             name='result',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='tree_sitter_server.result'),
+            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='syntaxforest.result'),
             preserve_default=False,
         ),
     ]

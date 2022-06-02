@@ -7,7 +7,7 @@ import modelqueue
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tree_sitter_server', '0005_search_language'),
+        ('syntaxforest', '0005_search_language'),
     ]
 
     operations = [

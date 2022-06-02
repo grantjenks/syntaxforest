@@ -8,7 +8,7 @@ from django.utils.timezone import utc
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tree_sitter_server', '0002_search'),
+        ('syntaxforest', '0002_search'),
     ]
 
     operations = [

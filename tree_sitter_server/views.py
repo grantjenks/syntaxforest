@@ -19,7 +19,7 @@ def index(request):
     else:
         form = SearchForm()
     searches = Search.objects.order_by('-create_time')[:10]
-    return render(request, 'tree_sitter_server/index.html', {'searches': searches})
+    return render(request, 'syntaxforest/index.html', {'searches': searches})
 
 
 def search(request, search_id):
@@ -34,7 +34,7 @@ def search(request, search_id):
             assert action == 'delete'
             search.delete()
             return redirect('index')
-    return render(request, 'tree_sitter_server/search.html', {'search': search})
+    return render(request, 'syntaxforest/search.html', {'search': search})
 
 
 def source(request, path):
@@ -58,7 +58,7 @@ def source_path(request, path):
         indent += part.count('(') - part.count(')')
     sexp = '\n'.join(parts)
     context = {'source': source, 'code': code, 'style': style, 'sexp': sexp}
-    return render(request, 'tree_sitter_server/source-path.html', context)
+    return render(request, 'syntaxforest/source-path.html', context)
 
 
 def source_form(request, path):
@@ -78,4 +78,4 @@ def source_form(request, path):
         form = SourceForm()
     sources = Source.objects.order_by('-update_time')[:10]
     context = {'form': form, 'sources': sources}
-    return render(request, 'tree_sitter_server/source-form.html', context)
+    return render(request, 'syntaxforest/source-form.html', context)

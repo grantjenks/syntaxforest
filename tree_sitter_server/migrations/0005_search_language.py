@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tree_sitter_server', '0004_search_name'),
+        ('syntaxforest', '0004_search_name'),
     ]
 
     operations = [

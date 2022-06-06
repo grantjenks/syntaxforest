@@ -63,7 +63,7 @@ jobs:
       # ## SSL Config
       #
       # ssh dokku@syntaxforest.com config:set --no-restart syntaxforest DOKKU_LETSENCRYPT_EMAIL=webmaster@syntaxforest.com
-      # ssh dokku@syntaxforest.com letsencrypt syntaxforest
+      # ssh dokku@syntaxforest.com letsencrypt:enable syntaxforest
 
       - name: Push to syntaxforest.com
         uses: dokku/github-action@master

@@ -2,4 +2,6 @@
 dj-database-url
 gunicorn
 psycopg2-binary
+twine
+wheel
 whitenoise

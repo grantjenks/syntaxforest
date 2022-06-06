@@ -45,6 +45,26 @@ jobs:
         with:
           fetch-depth: 0
 
+      # # Dokku Setup Notes
+      #
+      # ## Domain Config
+      #
+      # $ ssh dokku@syntaxforest.com domains:add syntaxforest syntaxforest.com
+      # $ ssh dokku@syntaxforest.com domains:add syntaxforest www.syntaxforest.com
+      # $ ssh dokku@syntaxforest.com redirect:set syntaxforest www.syntaxforest.com syntaxforest.com
+      #
+      #
+      # ## Database Config
+      #
+      # ssh dokku@syntaxforest.com postgres:create postgres143-syntaxforest -I 14.3
+      # ssh dokku@syntaxforest.com postgres:link postgres143-syntaxforest syntaxforest
+      #
+      #
+      # ## SSL Config
+      #
+      # ssh dokku@syntaxforest.com config:set --no-restart syntaxforest DOKKU_LETSENCRYPT_EMAIL=webmaster@syntaxforest.com
+      # ssh dokku@syntaxforest.com letsencrypt syntaxforest
+
       - name: Push to syntaxforest.com
         uses: dokku/github-action@master
         with:

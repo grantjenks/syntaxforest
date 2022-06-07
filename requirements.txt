@@ -1,7 +1,13 @@
 -e .
+blue
 dj-database-url
+flake8
 gunicorn
+isort
 psycopg2-binary
+pytest
+pytest-cov
+rstcheck
 twine
 wheel
 whitenoise

@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'syntaxforest',
 ]
 
+if DEBUG:
+    INSTALLED_APPS.append('replay')
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',

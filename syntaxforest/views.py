@@ -66,7 +66,7 @@ def source_form(request, path):
         if form.is_valid():
             source = form.save(commit=False)
             if source.language == 'language':
-                extension = source.language.split('.')[-1]
+                extension = source.path.split('.')[-1]
                 language = EXTENSIONS[extension]
                 source.language = language
             with transaction.atomic():

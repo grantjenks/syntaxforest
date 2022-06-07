@@ -14,6 +14,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='search',
             name='status',
-            field=models.BigIntegerField(db_index=True, default=modelqueue.Status.waiting),
+            field=models.BigIntegerField(
+                db_index=True, default=modelqueue.Status.waiting
+            ),
         ),
     ]

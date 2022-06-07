@@ -65,7 +65,8 @@ class Source(models.Model):
 
             linenos = tree.xpath('//a[@href]')
             linenos = [
-                anchor for anchor in linenos
+                anchor
+                for anchor in linenos
                 if anchor.get('href').startswith('#line-')
             ]
             keep_lines = {f'#line-{line}' for line in lines}

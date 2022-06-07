@@ -13,7 +13,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Capture',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('create_time', models.DateTimeField(auto_now_add=True)),
                 ('path', models.CharField(max_length=4096)),
                 ('sha', models.CharField(blank=True, max_length=100)),

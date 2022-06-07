@@ -31,18 +31,36 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Result',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('path', models.CharField(max_length=4096, unique=True)),
                 ('sha', models.CharField(blank=True, max_length=100)),
                 ('text', models.TextField(blank=True)),
                 ('language', models.CharField(max_length=100)),
-                ('search', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='syntaxforest.search')),
+                (
+                    'search',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='syntaxforest.search',
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
             model_name='capture',
             name='result',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='syntaxforest.result'),
+            field=models.ForeignKey(
+                default=0,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='syntaxforest.result',
+            ),
             preserve_default=False,
         ),
     ]

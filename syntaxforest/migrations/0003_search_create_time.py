@@ -15,7 +15,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='search',
             name='create_time',
-            field=models.DateTimeField(auto_now_add=True, default=datetime.datetime(2022, 5, 21, 5, 45, 56, 307090, tzinfo=utc)),
+            field=models.DateTimeField(
+                auto_now_add=True,
+                default=datetime.datetime(
+                    2022, 5, 21, 5, 45, 56, 307090, tzinfo=utc
+                ),
+            ),
             preserve_default=False,
         ),
     ]

@@ -1,15 +1,12 @@
 """Syntax Forest Search
 """
 
-import functools
 import logging
-import operator
 import time
 
 import modelqueue
 import tree_sitter_languages as ts
 from django.core.management.base import BaseCommand
-from django.db.models import Q
 
 from ...models import Capture, Result, Search, Source
 

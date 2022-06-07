@@ -1,13 +1,10 @@
 import modelqueue
-
-from lxml import etree
-
-from pygments import highlight
-from pygments.lexers import TextLexer, get_lexer_for_filename
-from pygments.formatters import HtmlFormatter
-from pygments.util import ClassNotFound as PygmentsClassNotFound
-
 from django.db import models
+from lxml import etree
+from pygments import highlight
+from pygments.formatters import HtmlFormatter
+from pygments.lexers import TextLexer, get_lexer_for_filename
+from pygments.util import ClassNotFound as PygmentsClassNotFound
 
 
 class Search(models.Model):

@@ -3,8 +3,8 @@
 
 import pathlib
 import re
-import setuptools
 
+import setuptools
 from setuptools.command.test import test as TestCommand
 
 

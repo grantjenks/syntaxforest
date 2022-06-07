@@ -1,6 +1,5 @@
 import modelqueue
 import tree_sitter_languages as ts
-
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 

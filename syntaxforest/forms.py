@@ -14,7 +14,7 @@ class SearchForm(ModelForm):
             language = ts.get_language(language_name)
             query = language.query(query_text)
         except Exception as exc:
-            raise ValidationError(str(exc))
+            raise ValidationError(f'{type(exc).__name__}: {str(exc)}')
 
     class Meta:
         model = Search

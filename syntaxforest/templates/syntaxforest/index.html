@@ -9,22 +9,30 @@
         Search
       </h1>
       <form method="POST">
+        {% if form.non_field_errors %}
+          <div class="help is-danger is-size-4">{{ form.non_field_errors }}</div>
+        {% endif %}
+        {% for field in form %}
+          {% if field.errors %}
+            <div class="help is-danger is-size-4">{{ field.errors }}</div>
+          {% endif %}
+        {% endfor %}
         <div class="field">
           <div class="control">
-            <textarea name="query" class="textarea is-large is-family-monospace" placeholder="Syntax tree query" rows="8"></textarea>
+            <textarea name="query" class="textarea is-large is-family-monospace" placeholder="Syntax tree query" rows="8">{{ form.query.value|default_if_none:"" }}</textarea>
           </div>
         </div>
         <div class="field has-addons has-addons-centered">
           <p class="control">
             <span class="select is-large">
               <select name="language">
-                <option value="python">Python</option>
-                <option value="java">Java</option>
+                <option value="python"{% if form.language.value == 'python' %} selected{% endif %}>Python</option>
+                <option value="java"{% if form.language.value == 'java' %} selected{% endif %}>Java</option>
               </select>
             </span>
           </p>
           <p class="control is-expanded">
-            <input name="name" class="input is-large" type="text" placeholder="Name for query">
+            <input name="name" class="input is-large" type="text" placeholder="Name for query" value="{{ form.name.value|default_if_none:"" }}">
           </p>
           <p class="control">
             <button class="button is-primary is-large">Search</button>

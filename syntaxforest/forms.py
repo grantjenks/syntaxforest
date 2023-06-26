@@ -2,17 +2,10 @@ import tree_sitter_languages as ts
 
 from django.forms import ModelForm, ValidationError
 
-from .models import LANGUAGES, Search, Source
+from .models import Search, Source
 
 
 class SearchForm(ModelForm):
-    def clean_language(self):
-        language = self.cleaned_data.get('language', '')
-        print(language)
-        if language not in LANGUAGES:
-            raise ValidationError('unsupported language')
-        return language
-
     def clean(self):
         super().clean()
         language_name = self.cleaned_data.get('language')

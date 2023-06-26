@@ -18,7 +18,11 @@ def index(request):
     else:
         form = SearchForm()
     searches = Search.objects.order_by('-create_time')[:10]
-    return render(request, 'syntaxforest/index.html', {'searches': searches})
+    return render(
+        request,
+        'syntaxforest/index.html',
+        {'searches': searches, 'form': form},
+    )
 
 
 def search(request, search_id):

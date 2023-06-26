@@ -35,7 +35,7 @@ setuptools.setup(
     long_description=readme,
     author='Grant Jenks',
     author_email='contact@grantjenks.com',
-    url='https://github.com/grantjenks/syntaxforest',
+    url='https://syntaxforest.com/',
     license='Apache 2.0',
     packages=['syntaxforest'],
     install_requires=[

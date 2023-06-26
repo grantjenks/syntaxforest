@@ -18,6 +18,10 @@ from django.urls import path
 
 from . import views
 
+admin.site.site_header = 'Syntax Forest'
+admin.site.site_title = 'Syntax Forest'
+admin.site.index_title = 'Syntax Forest'
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('search/<int:search_id>', views.search, name='search'),

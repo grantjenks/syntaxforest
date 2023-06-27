@@ -37,7 +37,16 @@ def search(request, search_id):
             assert action == 'delete'
             search.delete()
             return redirect('index')
-    return render(request, 'syntaxforest/search.html', {'search': search})
+    try:
+        offset = int(request.GET.get('offset', 0))
+    except Exception:
+        offset = 0
+    results = search.result_set.all().order_by('id')[offset:offset + 5]
+    return render(
+        request,
+        'syntaxforest/search.html',
+        {'search': search, 'results': results},
+    )
 
 
 def source(request, path):

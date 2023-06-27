@@ -48,7 +48,7 @@
       <h2 class="title is-size-4">
         Captures
       </h2>
-      {% for result in search.result_set.all %}
+      {% for result in results %}
         <h3 class="title is-size-5">
           {{ result.path }}
         </h3>
@@ -59,9 +59,7 @@
             </style>
           {% endif %}
           {{ capture.to_html.0|safe }}
-          {% if not forloop.last %}
-            <br>
-          {% endif %}
+          <br>
         {% endfor %}
       {% endfor %}
     </div>

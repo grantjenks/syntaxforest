@@ -16,7 +16,8 @@ class Search(models.Model):
         db_index=True,
         default=modelqueue.Status.waiting,
     )
-    progress = models.FloatField(default=0)
+    source_count = models.BigIntegerField(default=0)
+    search_count = models.BigIntegerField(default=0)
 
     def get_ref(self):
         return self.name or f'Search #{self.id}'

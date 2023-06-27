@@ -82,6 +82,15 @@ class Source(models.Model):
         return f'Source({self.path!r})'
 
 
+class Task(models.Model):
+    search = models.ForeignKey(Search, on_delete=models.CASCADE)
+    source = models.ForeignKey(Source, on_delete=models.CASCADE)
+    status = modelqueue.StatusField(
+        db_index=True,
+        default=modelqueue.Status.waiting,
+    )
+
+
 class Result(models.Model):
     search = models.ForeignKey(Search, on_delete=models.CASCADE)
     path = models.CharField(max_length=4096)

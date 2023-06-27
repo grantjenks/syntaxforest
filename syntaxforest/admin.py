@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Search, Source, Result, Capture
+from .models import Search, Source, Result, Capture, Task
 
 
 class SearchAdmin(admin.ModelAdmin):
@@ -28,3 +28,10 @@ class CaptureAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Capture, CaptureAdmin)
+
+
+class TaskAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Task, TaskAdmin)

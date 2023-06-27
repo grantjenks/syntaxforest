@@ -44,6 +44,7 @@ setuptools.setup(
         'modelqueue',
         'pygments',
         'tree-sitter-languages',
+        'tqdm',
     ],
     tests_require=['tox'],
     project_urls={

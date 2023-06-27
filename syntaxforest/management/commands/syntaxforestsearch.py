@@ -1,20 +1,19 @@
-"""Syntax Forest Search
+"""Syntax Forest Search Processor
 """
 
 import logging
 import time
 
 import modelqueue
-import tree_sitter_languages as ts
 from django.core.management.base import BaseCommand
 
-from ...models import Capture, Result, Search, Source
+from ...models import Capture, Result, Search, Source, Task
 
 log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'Syntax Forest Search'
+    help = 'Syntax Forest Search Processor'
 
     def add_arguments(self, parser):
         pass
@@ -25,48 +24,37 @@ class Command(BaseCommand):
             searches = Search.objects.all()
             search = modelqueue.run(searches, 'status', self.process)
             if search is None:
-                log.info('Nothing to search')
+                log.info('No searches to process')
                 time.sleep(1)
 
     def process(self, search):
         log.info(f'Processing {search}')
         Result.objects.filter(search=search).delete()
-        sources = Source.objects.filter(language=search.language)
-        language = ts.get_language(search.language)
-        parser = ts.get_parser(search.language)
-        query = language.query(search.query)
+        chunk_size = 1000
+        sources = (
+            Source.objects.filter(language=search.language)
+            .only('id')
+            .iterator(chunk_size=chunk_size)
+        )
+        tasks = []
+        start_priority = modelqueue.Status.waiting().priority
 
-        for source in sources:
-            tree = parser.parse(source.text.encode())
-            node = tree.root_node
-            captures = query.captures(node)
-
-            if not captures:
-                continue
-
-            result = Result(
+        for index, source in enumerate(sources):
+            status = modelqueue.Status.waiting(priority=start_priority + index)
+            task = Task(
                 search=search,
-                path=source.path,
-                sha=source.sha,
-                text=source.text,
-                language=source.language,
+                source=source,
+                status=status,
             )
-            result.save()
-            db_captures = []
+            tasks.append(task)
 
-            for node, name in captures:
-                start_point_row, start_point_col = node.start_point
-                end_point_row, end_point_col = node.end_point
-                db_capture = Capture(
-                    result=result,
-                    name=name,
-                    start_byte=node.start_byte,
-                    end_byte=node.end_byte,
-                    start_point_line=start_point_row + 1,
-                    start_point_col=start_point_col,
-                    end_point_line=end_point_row + 1,
-                    end_point_col=end_point_col,
-                )
-                db_captures.append(db_capture)
+            if len(tasks) >= chunk_size:
+                log.info(f'Creating tasks {index + 1}')
+                Task.objects.bulk_create(tasks)
+                tasks = []
 
-            Capture.objects.bulk_create(db_captures)
+        log.info(f'Creating tasks {index + 1}')
+        Task.objects.bulk_create(tasks)
+
+        search.source_count = index + 1
+        search.save()

@@ -115,3 +115,9 @@ class Capture(models.Model):
     def to_html(self):
         lines = range(self.start_point_line, self.end_point_line + 1)
         return self.result.to_html(lines)
+
+    def snippet(self):
+        data = self.result.text.encode()
+        subset = data[self.start_byte:self.end_byte]
+        text = subset.decode()
+        return f'{self.name}: {text}'

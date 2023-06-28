@@ -6,15 +6,20 @@ Syntax Forest web service for searching syntax trees.
 
 TODO: Yoda style if statements
 
-TODO: Strings as comments
+TODO: Strings as comments: see py-tree-sitter-languages
+
+TODO: Most imported module
+(import_statement (dotted_name) @import_name)
+(import_from_statement
+  module_name: (dotted_name) @import_name)
 
 
 TODO
 ====
 
-- Support offset for search results
-
 - Improve performance of search result rendering
+
+- Provide an endpoint for snippets as CSV?
 
 - Deploy new version to PyPI
 

@@ -1,10 +1,11 @@
 import modelqueue
 import tree_sitter_languages as ts
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import SearchForm, SourceForm
-from .models import Search, Source
+from .models import Search, Source, Capture
 
 EXTENSIONS = {'py': 'python', 'java': 'java'}
 
@@ -41,11 +42,21 @@ def search(request, search_id):
         offset = int(request.GET.get('offset', 0))
     except Exception:
         offset = 0
-    results = search.result_set.all().order_by('id')[offset:offset + 5]
+    results = search.result_set.all()
+    captures = Capture.objects.filter(result__in=results).order_by('id')
+    paginator = Paginator(captures, 25)
+    page_num = request.GET.get("page")
+    page = paginator.get_page(page_num)
+    page_range = paginator.get_elided_page_range(page.number)
     return render(
         request,
         'syntaxforest/search.html',
-        {'search': search, 'results': results},
+        {
+            'search': search,
+            'page': page,
+            'paginator': paginator,
+            'page_range': page_range,
+        },
     )
 
 

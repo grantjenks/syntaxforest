@@ -48,20 +48,41 @@
       <h2 class="title is-size-4">
         Captures
       </h2>
-      {% for result in results %}
+      {% for capture in page %}
+        {% if forloop.first %}
+          <style>
+           {{ capture.to_html.1|safe }}
+          </style>
+        {% endif %}
         <h3 class="title is-size-5">
-          {{ result.path }}
+          {{ capture.result.path }}
         </h3>
-        {% for capture in result.capture_set.all %}
-          {% if forloop.first %}
-            <style>
-              {{ capture.to_html.1|safe }}
-            </style>
-          {% endif %}
-          {{ capture.to_html.0|safe }}
-          <br>
-        {% endfor %}
+        {{ capture.to_html.0|safe }}
+        <br>
+        {{ capture.snippet }}
+        <br>
       {% endfor %}
+      <nav class="pagination" role="navigation" aria-label="pagination">
+        {% if page.has_previous %}
+          <a class="pagination-previous" href="?page={{ page.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% if page.has_next %}
+          <a class="pagination-next" href="?page={{ page.next_page_number }}">Next page</a>
+        {% endif %}
+        <ul class="pagination-list">
+          {% for num in page_range %}
+            {% if num == paginator.ELLIPSIS %}
+              <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+              </li>
+            {% else %}
+              <li>
+                <a class="pagination-link{% if num == page.number %} is-current{% endif %}" aria-label="Goto page 1" href="?page={{ num }}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </nav>
     </div>
   </section>
 {% endblock %}

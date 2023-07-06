@@ -32,3 +32,5 @@ TODO
 - Separate Django app from project (see django-rrweb for example)
 
 - Update py-tree-sitter-languages to be source-only
+
+- Add limits like max number of results, max file size, max query size, etc.

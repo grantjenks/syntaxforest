@@ -19,7 +19,7 @@ TODO
 
 - Improve performance of search result rendering
 
-- Provide an endpoint for snippets as CSV?
+- Provide an endpoint for snippets as CSV? and JSON?
 
 - Deploy new version to PyPI
 

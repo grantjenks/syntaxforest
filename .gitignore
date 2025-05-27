@@ -134,3 +134,5 @@ env*/
 # Static files
 syntaxforest/staticfiles/*
 !syntaxforest/staticfiles/README
+
+!.python-version
